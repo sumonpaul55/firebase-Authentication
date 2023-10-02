@@ -7,6 +7,7 @@ const Loginpage = () => {
 
     const [useEmail, setUserEmail] = useState(null)
     const [userError, setUserError] = useState(null)
+    const [name, setName] = useState("")
     const handleLogin = (e) => {
         setUserError("")
         setUserEmail("")
@@ -15,11 +16,13 @@ const Loginpage = () => {
         const pass = e.target.password.value;
         signInWithEmailAndPassword(auth, email, pass)
             .then(userCrendential => {
-                console.log(userCrendential.user.email)
+                console.log(userCrendential.user)
                 setUserEmail(userCrendential.user.email)
+                setName(userCrendential.user.displayName)
+
             }).catch(err => {
                 console.log(err)
-                setUserError(err)
+                setUserError("Password or Email didn't matched")
             })
     }
     const usedEmails = useRef(null)
@@ -60,7 +63,8 @@ const Loginpage = () => {
             <div>
                 {
                     useEmail ? <div>
-                        <h1 className='text-3xl text-red-500'>{useEmail}</h1>
+                        <h1 className="text-2xl text-blue-600">Name: {name}</h1>
+                        <h1 className='text-3xl text-red-500'>Email: {useEmail}</h1>
                     </div> :
                         <h2>{userError}</h2>
 
